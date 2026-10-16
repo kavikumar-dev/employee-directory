@@ -1,36 +1,78 @@
-# Employee Directory with Search
-Overview: The Employee Directory with Search is a simple and responsive web application that helps manage and organize employee information efficiently. It allows users to quickly find employee details, improving accessibility and communication within an organization. The interface is designed for clarity and ease of use, making navigation effortless for both HR teams and general staff.
+# 👥 Employee Directory
 
-Features:
+A responsive employee management web application built using
+HTML, CSS, Bootstrap, and JavaScript.
 
-View all employee details in a structured layout
+## 🌐 Live Demo
 
-Search employees by name for quick access
+https://kavikumar-dev.github.io/Kavikumar/
 
-Filter employees by department or role
+## 📌 About the Project
 
-Add new employee records dynamically
+Employee Directory is a simple web application designed to
+organize and manage employee information.
 
-Responsive design for smooth use on all devices
+Users can view employee records, search by name, filter by
+department, add new employees, edit existing records, and
+delete employee entries.
 
-Technology Used:
+Employee data is saved in browser Local Storage, allowing
+records to remain available after refreshing the page.
 
-Frontend: HTML, CSS, JavaScript
+## ✨ Features
 
-Design: Responsive web layout with intuitive user interface
+- View employee information
+- Search employees by name
+- Filter employees by department
+- Add new employee records
+- Edit employee details
+- Delete employee records with confirmation
+- Save records using browser Local Storage
+- Responsive layout for mobile and desktop
 
-Data Handling: JavaScript for dynamic content and interactivity
+## 🛠️ Technologies Used
 
-Challenges Faced:
+- HTML5
+- CSS3
+- Bootstrap
+- JavaScript
+- Browser Local Storage
+- GitHub Pages
 
-Ensuring responsive design across various screen sizes
+## 📂 Project Structure
 
-Managing real-time search and filter functionality efficiently
+Employee-Directory/
+├── index.html
+├── style.css
+├── script.js
+└── README.md
 
-Handling user inputs and validations while adding new employees
+## 💾 Data Storage
 
-Maintaining clean and reusable code for scalability
+This project uses browser Local Storage to save employee
+records on the current device and browser.
 
-About
-Employee Directory is a web app to manage employee info. Users can view, search by name, filter by department, and add new employees. Built with HTML, CSS, Bootstrap, and JavaScript, it offers a responsive, easy-to-use interface for quick access to employee details.
+It does not currently use a backend server or shared database.
 
+## 🚀 How to Run Locally
+
+1. Download or clone this repository.
+2. Open index.html in a web browser.
+3. Add, search, edit, and delete employee records.
+
+## 🔮 Future Improvements
+
+- Add employee profile images
+- Add role-based filtering
+- Improve form validation
+- Replace browser storage with a database
+- Build a backend API
+- Add user authentication
+
+## 👨‍💻 Developer
+
+Kavikumar
+
+B.E. Computer Science and Engineering Student
+
+GitHub: https://github.com/kavikumar-dev
