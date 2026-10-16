@@ -5,7 +5,8 @@ HTML, CSS, Bootstrap, and JavaScript.
 
 ## 🌐 Live Demo
 
-https://kavikumar-dev.github.io/Kavikumar/
+https://kavikumar-dev.github.io/employee-directory/
+
 
 ## 📌 About the Project
 
