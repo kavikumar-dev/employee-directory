@@ -1,7 +1,9 @@
+// Employee Directory 3.0
+// Employee data saved using Local Storage
 
-// Employee Directory 2.0
+const STORAGE_KEY = "employeeDirectoryData";
 
-let employees = [
+const defaultEmployees = [
     {
         id: 1,
         name: "John Doe",
@@ -20,17 +22,53 @@ let employees = [
     }
 ];
 
+// Load saved employees, or use sample employees initially
+function loadEmployees() {
+    try {
+        const savedData = localStorage.getItem(STORAGE_KEY);
+
+        if (savedData !== null) {
+            const parsedData = JSON.parse(savedData);
+
+            if (Array.isArray(parsedData)) {
+                return parsedData;
+            }
+        }
+    } catch (error) {
+        console.error("Could not load employee data:", error);
+    }
+
+    return defaultEmployees.map(employee => ({ ...employee }));
+}
+
+let employees = loadEmployees();
+
 const employeeList = document.getElementById("employeeList");
 const searchInput = document.getElementById("searchInput");
 const departmentFilter = document.getElementById("departmentFilter");
 const addEmployeeForm = document.getElementById("addEmployeeForm");
+
+// Save employee data
+function saveEmployees() {
+    try {
+        localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify(employees)
+        );
+        return true;
+    } catch (error) {
+        alert("Unable to save data in this browser.");
+        console.error("Could not save employee data:", error);
+        return false;
+    }
+}
 
 // Display employees
 function renderEmployees() {
     const searchTerm = searchInput.value.toLowerCase().trim();
     const deptFilter = departmentFilter.value;
 
-    employeeList.innerHTML = "";
+    employeeList.replaceChildren();
 
     const filtered = employees.filter(emp =>
         emp.name.toLowerCase().includes(searchTerm) &&
@@ -38,7 +76,9 @@ function renderEmployees() {
     );
 
     if (filtered.length === 0) {
-        employeeList.innerHTML = "<p>No employees found.</p>";
+        const message = document.createElement("p");
+        message.textContent = "No employees found.";
+        employeeList.appendChild(message);
         return;
     }
 
@@ -64,7 +104,6 @@ function renderEmployees() {
         const phone = document.createElement("p");
         phone.textContent = "Phone: " + emp.phone;
 
-        // Edit button
         const editButton = document.createElement("button");
         editButton.className = "btn btn-primary btn-sm me-2";
         editButton.textContent = "Edit";
@@ -74,7 +113,6 @@ function renderEmployees() {
             editEmployee(emp.id);
         });
 
-        // Delete button
         const deleteButton = document.createElement("button");
         deleteButton.className = "btn btn-danger btn-sm";
         deleteButton.textContent = "Delete";
@@ -99,7 +137,7 @@ function renderEmployees() {
     });
 }
 
-// Add a new employee
+// Add employee
 addEmployeeForm.addEventListener("submit", function (event) {
     event.preventDefault();
 
@@ -124,11 +162,16 @@ addEmployeeForm.addEventListener("submit", function (event) {
     }
 
     employees.push(newEmployee);
-    addEmployeeForm.reset();
-    renderEmployees();
+
+    if (saveEmployees()) {
+        addEmployeeForm.reset();
+        renderEmployees();
+    } else {
+        employees.pop();
+    }
 });
 
-// Edit an employee
+// Edit employee
 function editEmployee(id) {
     const employee = employees.find(emp => emp.id === id);
 
@@ -137,10 +180,7 @@ function editEmployee(id) {
     const name = prompt("Enter employee name:", employee.name);
     if (name === null) return;
 
-    const department = prompt(
-        "Enter department:",
-        employee.department
-    );
+    const department = prompt("Enter department:", employee.department);
     if (department === null) return;
 
     const role = prompt("Enter role:", employee.role);
@@ -163,30 +203,40 @@ function editEmployee(id) {
         return;
     }
 
+    const originalEmployee = { ...employee };
+
     employee.name = name.trim();
     employee.department = department.trim();
     employee.role = role.trim();
     employee.email = email.trim();
     employee.phone = phone.trim();
 
-    renderEmployees();
+    if (saveEmployees()) {
+        renderEmployees();
+    } else {
+        Object.assign(employee, originalEmployee);
+        renderEmployees();
+    }
 }
 
-// Delete an employee
+// Delete employee
 function deleteEmployee(id) {
     const employee = employees.find(emp => emp.id === id);
 
     if (!employee) return;
 
-    const confirmed = confirm(
-        "Are you sure you want to delete " + employee.name + "?"
-    );
+    if (!confirm("Delete " + employee.name + "?")) return;
 
-    if (!confirmed) return;
+    const previousEmployees = employees;
 
     employees = employees.filter(emp => emp.id !== id);
 
-    renderEmployees();
+    if (saveEmployees()) {
+        renderEmployees();
+    } else {
+        employees = previousEmployees;
+        renderEmployees();
+    }
 }
 
 // Search and filter
